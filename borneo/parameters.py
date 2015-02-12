@@ -76,12 +76,12 @@ def generate_etree(parameters, root_name):
     return root
 
 
-def parse_xml(filename):
+def parse_xml(filename, path):
     """Load and parse the supplied xml file to generate a parameter list"""
 
     tree = ET.parse(filename)
     root = tree.getroot()
-    return parse_etree(root)
+    return parse_etree(root, path)
 
 
 class Query(object):
