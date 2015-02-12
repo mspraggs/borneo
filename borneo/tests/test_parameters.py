@@ -24,7 +24,13 @@ def xml_params():
     return root
 
 
-def test_add_sweep(self):
+@pytest.fixture
+def random_parameters():
+    return [{'a': a, 'b': b, 'c': c}
+            for a in range(10) for b in range(10, 30) for c in ['foo', 'bar']]
+
+
+def test_add_sweep():
     """Test the global sweep parameter set generation function"""
     parameters = add_sweep([{}], a=range(5), b=range(10), c=["tree", "car"])
     assert len(parameters) == 100
@@ -33,7 +39,7 @@ def test_add_sweep(self):
         assert params in parameters
 
 
-def test_add_spokes(self):
+def test_add_spokes():
     """Test the hub and spokes parameter set generation function"""
     parameters = add_spokes([{'a': 1, 'b': 2, 'c': 'foo'}],
                             a=range(2, 10), b=range(3, 5),
@@ -48,7 +54,7 @@ def test_add_spokes(self):
         assert {'a': 1, 'b': 2, 'c': c} in parameters
 
 
-def test_parse_etree(self, xml_params):
+def test_parse_etree(xml_params):
     """Test xml parsing of parameters"""
 
     parameters = parse_etree(xml_params, '/')
@@ -59,7 +65,7 @@ def test_parse_etree(self, xml_params):
         assert params == expect_params
 
 
-def test_generate_etree(self, xml_params):
+def test_generate_etree(xml_params):
     """Test xml generation of parameter lists"""
 
     params = [{'a': a, 'b': b} for a in range(10) for b in range(10)]
