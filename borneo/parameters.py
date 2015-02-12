@@ -54,7 +54,10 @@ def parse_etree(etree, path):
     for parameters in etree.iterfind(path):
         params_dict = {}
         for param_elem in parameters:
-            params_dict[param_elem.tag] = eval(param_elem.text)
+            try:
+                params_dict[param_elem.tag] = eval(param_elem.text)
+            except NameError:
+                params_dict[param_elem.tag] = param_elem.text
         ret.append(params_dict)
     return ret
 
