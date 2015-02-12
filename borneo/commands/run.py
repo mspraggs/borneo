@@ -12,4 +12,4 @@ def main(argv):
     except IndexError:
         print("Usage: python {} run <module>".format(sys.argv[0]))
         sys.exit()
-    mod.main()
+    mod.main(argv[1:])
