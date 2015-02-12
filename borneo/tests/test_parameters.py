@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from borneo.parameters import (generate_etree, add_sweep, add_spokes,
+from borneo.parameters import (Query, generate_etree, add_sweep, add_spokes,
                                parse_etree)
 
 
@@ -63,4 +63,65 @@ class TestFunctions(object):
         params = [{'a': a, 'b': b} for a in range(10) for b in range(10)]
         etree = generate_etree(params, 'root')
         assert len(etree.getchildren()) == len(xml_params.getchildren())
-        assert ET.tostring(etree) == ET.tostring(xml_params)
+        assert ET.tostring(etree) == ET.tostring(xml_params)class TestQuery(object):
+
+
+class TestQuery(object):
+
+    def test_init(self):
+        """Test the constructor"""
+        q = Query(a=1, b=3)
+        assert len(q.children) == 2
+        assert hasattr(q, 'connector')
+        assert q.negate is False
+        assert q.filter_func is None
+        for child in q.children:
+            assert isinstance(child, Query)
+
+    def test_set_filter(self):
+        """Test the _set_filter function"""
+        q = Query()
+        q._set_filter(lambda x, y: x > y, 'foo', 2)
+        assert q.filter_func({'foo': 4})
+        assert not q.filter_func({'foo': 2})
+
+    def test_evaluate(self, random_parameters):
+        """Test the evaluation of the query on a parameter set"""
+
+        q = Query()
+        results = q.evaluate(random_parameters)
+        assert results == random_parameters
+
+        q = Query(a=1, b=10)
+        results = q.evaluate(random_parameters)
+        assert len(results) == 2
+        for result in results:
+            assert result['a'] == 1
+            assert result['b'] == 10
+
+        q = Query(a=1, b__gte=20)
+        results = q.evaluate(random_parameters)
+        assert len(results) == 20
+        for result in results:
+            assert result['a'] == 1
+            assert result['b'] >= 10
+
+        q = Query(a=1) | Query(b__gte=20)
+        results = q.evaluate(random_parameters)
+        assert len(results) == 220
+        for result in results:
+            assert result['a'] == 1 or result['b'] >= 20
+
+        q2 = q & Query(c='foo')
+        results = q2.evaluate(random_parameters)
+        assert len(results) == 110
+        for result in results:
+            assert (
+                (result['a'] == 1 or result['b'] >= 20) and result['c'] == 'foo'
+            )
+
+        q = ~Query(a=1)
+        results = q.evaluate(random_parameters)
+        assert len(results) == 360
+        for result in results:
+            assert not result['a'] == 1
