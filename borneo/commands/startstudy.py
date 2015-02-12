@@ -2,6 +2,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 
 import os
+import sys
 
 from jinja2 import Template
 
@@ -10,7 +11,11 @@ from borneo.paths import get_project_path
 
 
 def main(argv):
-    study_name = argv[0]
+    try:
+        study_name = argv[0]
+    except IndexError:
+        print("Usage: python {} startstudy <study_name>".format(sys.argv[0]))
+        sys.exit()
     template_args = {'study_name': study_name}
 
     template_path = os.path.join(os.path.dirname(__file__),
