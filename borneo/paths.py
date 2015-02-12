@@ -40,3 +40,16 @@ def make_results_path(filename, study_name, project_path=None, config=None):
     except OSError:
         pass
     return path
+
+
+def get_rawdata_path(project_path=None, config=None):
+    """Get the path to the rawdata directory"""
+    from borneo.config import load_project_config
+    project_path = project_path or get_project_path()
+    config = config or load_project_config(project_path)
+    return os.path.join(project_path, config.RAWDATA_DIR)
+
+
+def make_rawdata_path(filename, project_path=None, config=None):
+    """Concatenate the specified filename with the rawdata directory"""
+    return os.path.join(get_rawdata_path(project_path, config), filename)
