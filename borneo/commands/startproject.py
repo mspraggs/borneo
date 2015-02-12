@@ -8,7 +8,11 @@ import sys
 
 def main(argv):
     """Set up a new project using the template """
-    project_name = argv[0]
+    try:
+        project_name = argv[0]
+    except IndexError:
+        print("Usage: {} startproject <project_name>".format(sys.argv[0]))
+        sys.exit()
     try:
         location = argv[1]
     except IndexError:
