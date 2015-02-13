@@ -2,7 +2,7 @@ from __future__  import absolute_import
 
 from itertools import product
 import operator
-from xml.etree import ElementTree as ET
+from lxml import etree
 
 
 def _aprx(x, y, rtol, atol):
@@ -46,10 +46,6 @@ def parse_etree(etree, path):
     """Parses the supplied ElementTree, looking in the specified path for
     <parameters> tags from which to load dictionaries of parameters"""
 
-    # Handle broken findall on ElementTree if ET.VERSION == 1.3.x
-    if path.startswith('/') and ET.VERSION.split('.')[:2] == ['1', '3']:
-        path = '.' + path
-
     ret = []
     for parameters in etree.iterfind(path):
         params_dict = {}
@@ -65,12 +61,12 @@ def parse_etree(etree, path):
 def generate_etree(parameters, root_name):
     """Generate an xml Element using the specified list of parameters"""
 
-    root = ET.Element(root_name)
+    root = etree.Element(root_name)
 
     for params in parameters:
-        node = ET.SubElement(root, 'parameters')
+        node = etree.SubElement(root, 'parameters')
         for key, value in params.items():
-            parameter = ET.SubElement(node, key)
+            parameter = etree.SubElement(node, key)
             parameter.text = str(value)
 
     return root
@@ -79,7 +75,8 @@ def generate_etree(parameters, root_name):
 def parse_xml(filename, path):
     """Load and parse the supplied xml file to generate a parameter list"""
 
-    tree = ET.parse(filename)
+    tree = etree.parse(filename)
+    tree.xinclude()
     root = tree.getroot()
     return parse_etree(root, path)
 
