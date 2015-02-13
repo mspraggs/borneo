@@ -72,6 +72,7 @@ def test_filter_for_func():
     filtered_parameters = filter_for_func(func, parameters)
     assert filtered_parameters == {'a': 1, 'b': 2}
 
+
 def test_parse_etree(xml_params):
     """Test xml parsing of parameters"""
 
