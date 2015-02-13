@@ -60,7 +60,8 @@ def filter_for_func(func, parameters):
     if argspec.keywords:
         return parameters
     else:
-        return dict([(key, parameters[key]) for key in argspec.args])
+        return dict([(key, value) for key, value in parameters.items()
+                     if key in argspec.args])
 
 
 def parse_etree(etree, path):

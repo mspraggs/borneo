@@ -67,7 +67,7 @@ def test_combined_parameters():
 def test_filter_for_func():
     """Test parameter filtering based on function arguments"""
     parameters = {'a': 1, 'b': 2, 'c': 3}
-    def func(a, b):
+    def func(a, b, x):
         pass
     filtered_parameters = filter_for_func(func, parameters)
     assert filtered_parameters == {'a': 1, 'b': 2}
