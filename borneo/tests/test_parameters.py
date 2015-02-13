@@ -57,7 +57,7 @@ def test_add_spokes():
 def test_parse_etree(xml_params):
     """Test xml parsing of parameters"""
 
-    parameters = parse_etree(xml_params, '/')
+    parameters = parse_etree(xml_params, './')
     expected_params = [{'a': a, 'b': b}
                        for a in range(5) for b in range(10)]
 
