@@ -5,8 +5,9 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from borneo.parameters import (Query, combine_parameters, generate_etree,
-                               add_sweep, add_spokes, parse_etree)
+from borneo.parameters import (Query, combine_parameters, filter_for_func,
+                               generate_etree, add_sweep, add_spokes,
+                               parse_etree)
 
 
 @pytest.fixture
@@ -62,6 +63,14 @@ def test_combined_parameters():
     assert combined == [{'a': 1, 'b': 3}, {'a': 1, 'b': 4},
                         {'a': 2, 'b': 3}, {'a': 2, 'b': 4}]
 
+
+def test_filter_for_func():
+    """Test parameter filtering based on function arguments"""
+    parameters = {'a': 1, 'b': 2, 'c': 3}
+    def func(a, b):
+        pass
+    filtered_parameters = filter_for_func(func, parameters)
+    assert filtered_parameters == {'a': 1, 'b': 2}
 
 def test_parse_etree(xml_params):
     """Test xml parsing of parameters"""

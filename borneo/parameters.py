@@ -1,5 +1,6 @@
 from __future__  import absolute_import
 
+import inspect
 from itertools import product
 import operator
 from lxml import etree
@@ -50,6 +51,16 @@ def combine_parameters(parameters1, parameters2):
         params_out.update(params2)
         out.append(params_out)
     return out
+
+
+def filter_for_func(func, parameters):
+    """Filters out the supplied parameter dictionary so that it only contains
+    the keys corresponding to func's arguments"""
+    argspec = inspect.getargspec(func)
+    if argspec.keywords:
+        return parameters
+    else:
+        return dict([(key, parameters[key]) for key in argspec.args])
 
 
 def parse_etree(etree, path):
