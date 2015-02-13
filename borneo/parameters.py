@@ -42,6 +42,16 @@ def add_spokes(base, **kwargs):
     return output
 
 
+def combine_parameters(parameters1, parameters2):
+    """Combine the two supplied parameter lists using a product iteration"""
+    out = []
+    for params1, params2 in product(parameters1, parameters2):
+        params_out = params1.copy()
+        params_out.update(params2)
+        out.append(params_out)
+    return out
+
+
 def parse_etree(etree, path):
     """Parses the supplied ElementTree, looking in the specified path for
     <parameters> tags from which to load dictionaries of parameters"""

@@ -5,8 +5,8 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from borneo.parameters import (Query, generate_etree, add_sweep, add_spokes,
-                               parse_etree)
+from borneo.parameters import (Query, combine_parameters, generate_etree,
+                               add_sweep, add_spokes, parse_etree)
 
 
 @pytest.fixture
@@ -52,6 +52,15 @@ def test_add_spokes():
         assert {'a': 1, 'b': b, 'c': 'foo'} in parameters
     for c in ['tree', 'bush']:
         assert {'a': 1, 'b': 2, 'c': c} in parameters
+
+
+def test_combined_parameters():
+    """Test the parameter list combination function"""
+    parameters1 = [{'a': 1}, {'a': 2}]
+    parameters2 = [{'b': 3}, {'b': 4}]
+    combined = combine_parameters(parameters1, parameters2)
+    assert combined == [{'a': 1, 'b': 3}, {'a': 1, 'b': 4},
+                        {'a': 2, 'b': 3}, {'a': 2, 'b': 4}]
 
 
 def test_parse_etree(xml_params):
