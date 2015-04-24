@@ -56,7 +56,10 @@ def combine_parameters(parameters1, parameters2):
 def filter_for_func(func, parameters):
     """Filters out the supplied parameter dictionary so that it only contains
     the keys corresponding to func's arguments"""
-    argspec = inspect.getargspec(func)
+    try:
+        argspec = inspect.getargspec(func)
+    except TypeError:
+        argspec = inspect.getargspec(func.__call__)
     if argspec.keywords:
         return parameters
     else:
