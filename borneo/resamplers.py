@@ -15,7 +15,7 @@ def jackknife_error(data, centre=None):
     """Compute the jackknife error of the supplied dataset, using the supplied
     central value if it's specified"""
     N = len(data)
-    centre = centre or sum(data) / len(data)
+    centre = centre if centre is not None else sum(data) / len(data)
     deviations = [(datum - centre)**2 for datum in data]
     return ((N - 1) / N * sum(deviations))**0.5
 
