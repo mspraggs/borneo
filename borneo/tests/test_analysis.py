@@ -53,10 +53,12 @@ class TestAnalysis(object):
         analysis.add_measurement('some_tag', some_measurement)
         analysis.add_measurement('another_tag', another_measurement)
         samples = np.arange(10, dtype=float)
-        centre, results, error = analysis.run_resample(1.0, samples, np.std, {})
+        centre, results, error = analysis.run_resample(1.0, samples, sum, {})
         assert centre.x == 0.5
         assert centre.y == 0.25
         xs = np.array([result.x for result in results])
         ys = np.array([result.y for result in results])
         assert np.allclose(xs, samples / 2)
         assert np.allclose(ys, samples**2 / 4)
+        assert error.x == np.sum(samples / 2)
+        assert error.y == np.sum(samples**2 / 4)
