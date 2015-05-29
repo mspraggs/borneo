@@ -4,6 +4,13 @@ from __future__ import division
 import numpy as np
 
 
+def bin_data(data, binsize=1):
+    """Bins the supplied data into bins of the specified size"""
+
+    return [sum(data[i:i+binsize]) / binsize
+            for i in range(0, len(data) - binsize + 1, binsize)]
+
+
 def jackknife(data):
     """Perform a jackknife resample on the specified data"""
     N = len(data)
