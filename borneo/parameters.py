@@ -117,6 +117,17 @@ def write_xml(filename, tree):
         f.write(etree.tostring(tree, pretty_print=True))
 
 
+def filter_xml(input_filename, input_root, output_filename, output_root,
+               *args, **kwargs):
+    """Load the parameters from supplied xml file and root (path to element),
+    filter them according to args and kwargs, then write them to
+    output_filename, in the element specified by output_root"""
+
+    params = parse_xml(input_filename, input_root)
+    filtered_params = Query(*args, **kwargs).evaluate(params)
+    write_xml(output_filename, generate_etree(filtered_params, output_root))
+
+
 class Query(object):
     """Parameter filtering class using tree/node structure"""
 
