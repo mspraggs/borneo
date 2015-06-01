@@ -7,4 +7,4 @@ def test_gather_commands():
     """Test gather_commands"""
     commands = gather_commands()
     assert set(commands.keys()) == {"run", "shell", "startproject",
-                                    "startstudy"}
+                                    "startstudy", 'newrunfile'}
