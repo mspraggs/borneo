@@ -4,6 +4,7 @@ import inspect
 from itertools import product
 import operator
 from lxml import etree
+import xml.dom.minidom as minidom
 
 
 def _aprx(x, y, rtol, atol):
@@ -107,6 +108,13 @@ def parse_xml(filename, path):
     tree.xinclude()
     root = tree.getroot()
     return parse_etree(root, path)
+
+
+def write_xml(filename, tree):
+    """Write the supplied element/element tree to a file"""
+
+    with open(filename, "w") as f:
+        f.write(etree.tostring(tree, pretty_print=True))
 
 
 class Query(object):
