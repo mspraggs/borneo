@@ -1,7 +1,7 @@
 from borneo.analysis import Analysis
 
 
-class {{ study_name }}Analysis(Analysis):
+class {{ study_name|capitalize }}Analysis(Analysis):
 
     def __init__(self, model, **kwargs):
         """{{ study_name }}Analysis constructor"""
