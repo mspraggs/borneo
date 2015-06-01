@@ -1,0 +1,11 @@
+ipython==3.1.0
+Jinja2==2.7.3
+lxml==3.4.4
+MarkupSafe==0.23
+numpy==1.9.2
+pandas==0.16.1
+py==1.4.27
+pytest==2.7.0
+python-dateutil==2.4.2
+pytz==2015.2
+six==1.9.0
