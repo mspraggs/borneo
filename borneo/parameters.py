@@ -95,8 +95,12 @@ def generate_etree(parameters, root_name):
     for params in parameters:
         node = etree.SubElement(root, 'parameters')
         for key, value in params.items():
-            parameter = etree.SubElement(node, key)
-            parameter.text = str(value)
+            try:
+                parameter = etree.SubElement(node, key)
+            except TypeError:
+                pass
+            else:
+                parameter.text = str(value)
 
     return root
 
