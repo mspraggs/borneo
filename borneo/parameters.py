@@ -4,6 +4,7 @@ import inspect
 from itertools import product
 import operator
 from lxml import etree
+from lxml.etree import _Comment
 import xml.dom.minidom as minidom
 
 
@@ -78,6 +79,8 @@ def parse_etree(etree, path):
         if parameters.tag != "parameters":
             continue
         for param_elem in parameters:
+            if type(param_elem) is _Comment:
+                continue
             text = param_elem.text.strip()
             try:
                 params_dict[param_elem.tag] = eval(text)
