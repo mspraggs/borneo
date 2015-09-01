@@ -31,7 +31,7 @@ def settings(tmp_dir, request):
     return {'dict': ret, 'obj': obj, 'file': filename,
             'envvar': 'PROJECT_SETTINGS'}
 
-class TestSimulation(object):
+class TestConfig(object):
 
     def test_init(self):
         config = Config()
